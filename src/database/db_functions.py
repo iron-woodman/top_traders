@@ -99,6 +99,9 @@ def delete_trade(trade):
             cursor.execute("DELETE FROM trades WHERE id = %s", (trade[0],))
             conn.commit()
             cursor.execute("INSERT INTO daily_trades (trade_id, symbol, opened, closed, message_id, profit) VALUES (%s, %s, %s, %s, %s, %s)", (trade[0], trade[1], trade[7], int(time()), trade[9], trade[5]))
+            cursor.execute(
+                "INSERT INTO all_trades (trade_id, trader_uid, symbol, opened, closed, message_id, profit) VALUES (%s, %s, %s, %s, %s, %s, %s)",
+                (trade[0], trade[11], trade[1], trade[7], int(time()), trade[9], trade[5]))
             cursor.execute("SELECT COUNT(*) FROM trades WHERE id = %s", (trade[0],))
             conn.commit()
             return cursor.fetchone()[0] == 0

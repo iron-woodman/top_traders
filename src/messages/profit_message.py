@@ -5,7 +5,7 @@ import get_sum_profit,delete_daily_trades,insert_daily_profit,get_count_winning_
 from datetime import datetime
 from src.utils.config_handler import telegram_config
 
-public_channel_id = telegram_config['public_channel_id']
+PUBLIC_CHANNEL_ID = telegram_config['public_channel_id']
 CALLS_CHANNEL_ID  = telegram_config['calls_channel_id'][4:]
 
 class WeeklyProfitMessage:
@@ -63,7 +63,7 @@ def send_weekly_message():
     total_profit = profit + losses
     profit_message = WeeklyProfitMessage(winning_trades, losing_trades, profit, losses)
     message = profit_message.generate_message()
-    send_telegram_message(public_channel_id,message,protect_content=False,parse_mode="Markdown")
+    send_telegram_message(PUBLIC_CHANNEL_ID, message, protect_content=False, parse_mode="Markdown")
 
     daily_count = get_count_winning_loosing_trades()
     insert_daily_profit(daily_count[0][0],daily_count[1][0],total_profit)
@@ -73,13 +73,12 @@ def send_weekly_message():
 def send_daily_message():
     trades = generate_opened_trade_table()
     sum_profit = get_today_sum_profit()
-    
     profit = sum_profit[0]
     losses = sum_profit[1]
 
 
     profit_message = DailyProfitMessage(trades, profit, losses).generate_messages()
-    send_telegram_message(public_channel_id,profit_message,protect_content=False,parse_mode="Markdown")
+    send_telegram_message(PUBLIC_CHANNEL_ID, profit_message, protect_content=False, parse_mode="Markdown")
 
 def send_message():
     # check if we are sunday
