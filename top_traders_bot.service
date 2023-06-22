@@ -1,3 +1,8 @@
+[Unit]
+Description=Telegram bot 'top_traders_bot'
+After=syslog.target
+After=network.target
+
 [Service]
 Type=simple
 User=root
