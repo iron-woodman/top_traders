@@ -24,7 +24,7 @@ trap restart_script SIGTERM
 
 sendMessage() {
   log_content=$(cat errors.log)
-  # If the script exits, send a message to the channel indicating the bot crashed
+  # If the script exits, send a message to the channel indicating the bot crashedls
   text="The bot has crashed. Please check the logs and restart it.\`\`\`$log_content\`\`\`"
   encoded_text=$(urlencode "$text")
   curl -s -X POST "https://api.telegram.org/bot$BOT_API_KEY/sendMessage" \

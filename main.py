@@ -75,6 +75,10 @@ if __name__ == "__main__":
                 sleep(random.uniform(10.1, 20.1))
 
     except KeyboardInterrupt:
-        ping_message = DevMessage("Exit")
-        ping_message.send_message()
+        exit_message = DevMessage("Exit")
+        exit_message.send_message()
         print("Exiting")
+    except Exception as e:
+        error_message = DevMessage(f"{e}", message_type="ERROR")
+        error_message.send_message()
+
