@@ -2,6 +2,7 @@ import argparse
 import random
 from time import sleep, time
 import datetime
+import threading
 
 import src.database.db_functions as db_functions
 import src.api.binance_api as binance_api
@@ -9,6 +10,8 @@ import src.trades.trades_functions as checks
 from src.messages.profit_message import send_message
 from src.database.db_functions import get_closed_trade, get_traders
 from src.utils.config_handler import config
+from src.messages.dev_message import DevMessage
+from src.api.telegram import send_telegram_message
 
 parser = argparse.ArgumentParser(description='Binance Top Traders Deals')
 parser.add_argument('--config', type=str, default='config/config.ini', help='Path to the config file')
@@ -28,16 +31,28 @@ def main():
         sleep(random.uniform(1.1, 2.1))
 
 
+def send_ping_message_on_time():
+    while True:
+        if datetime.datetime.now().minute % 10 == 0:
+            ping_message = DevMessage("PING")
+            ping_message.send_message()
+        sleep(60)
+
+
+
 if __name__ == "__main__":
     try:
         working = True
+        ping_message = DevMessage("Start")
+        ping_message.send_message()
         top200 = get_traders()
         last_print_time = time()
         current_date = datetime.datetime.now()
 
         print(f"[{current_date.strftime('%d-%m-%Y %H:%M:%S')}] [i] Bot is running. Total trades stored : " + str(
             db_functions.count_total_trades()))
-
+        ping_thread = threading.Thread(target=send_ping_message_on_time)
+        ping_thread.start()
         while working is True:
             current_date = datetime.datetime.now()
             closed_trades = get_closed_trade()
@@ -46,6 +61,7 @@ if __name__ == "__main__":
                 send_message()
                 # working = False
                 # break
+
             current_time = time()
             if current_time - last_print_time >= 1800 and working is True:
                 last_print_time = current_time
@@ -59,4 +75,6 @@ if __name__ == "__main__":
                 sleep(random.uniform(10.1, 20.1))
 
     except KeyboardInterrupt:
+        ping_message = DevMessage("Exit")
+        ping_message.send_message()
         print("Exiting")
