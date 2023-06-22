@@ -1,7 +1,10 @@
 import requests, requests.exceptions
 import json
+import random
 from time import sleep
+import logging
 import src.database.db_functions as sql
+import src.utils.logs as custom_logging
 HEADERS = {
     'Content-Type': 'application/json'
 }
@@ -9,6 +12,7 @@ HEADERS = {
 
 def handle_error(trader_uid,e="Not provided"):
     print(f"Error while fetching trades for trader: {trader_uid}, Error : {e}")
+    custom_logging.add_log(f"Error while fetching trades for trader: {trader_uid}, Error : {e}", logging.ERROR)
 
 def fetch_top_traders(limit, trade_type="PERPETUAL", statisticsType="ROI"):
     """
@@ -58,8 +62,8 @@ def fetch_trader_trades(trader_uid, trade_type="PERPETUAL"):
         return []
 
     if response.status_code != 200:
-        handle_error(trader_uid)
-        sleep(10)
+        handle_error(trader_uid, f"ответ сервера: {response.status_code}")
+        sleep(random.uniform(7.6, 11.4))
         return fetch_trader_trades(trader_uid, trade_type)
 
     return response.json()['data']['otherPositionRetList']
@@ -80,7 +84,7 @@ def fetch_trader_info(trader_uid):
     response = requests.request("POST", url, headers=headers, data=json.dumps(payload))
     trader_info = response.json()['data']
 
-    sql.insert_trader(trader_info['encryptedUid'],trader_info['nickName'])
+    sql.insert_trader(trader_info['encryptedUid'], trader_info['nickName'])
     return trader_info
 
 def fetch_trader_username(trader_uid):

@@ -27,9 +27,10 @@ def check_opened_trades(trades, stored_trades, trader_name, trader_id):
           if trades_functions.is_trade_new(stored_trades, trade):
                new_trade_message = NewTradeMessage(trade, trader_name)
                message_text = new_trade_message.generate_message()
-               msg_id = bot.send_telegram_message(CALLS_CHANNEL_ID,message_text)
+               msg_id = bot.send_telegram_message(CALLS_CHANNEL_ID, message_text)
                db_functions.insert_trade(trade, trader_id, msg_id)
                custom_logging.add_log(f"Trade {trade['symbol']} placed @ {trade['entryPrice']} has been sumbitted to the database.")
+
 def generate_table_trades():
      
      trades = db_functions.get_winning_losing_trades()

@@ -36,7 +36,7 @@ def is_trade_new(stored_trades, trade_api):
     for stored_trade in stored_trades:
         id_hash = generate_trade_hash(trade_api, stored_trade[11])
         if db_functions.check_trade_uid(id_hash):
-            custom_logging.add_log(f"Trade {trade_api['symbol']} placed @ {trade_api['entryPrice']} is already in the database with id {id_hash}.")
+            # custom_logging.add_log(f"Trade {trade_api['symbol']} placed @ {trade_api['entryPrice']} is already in the database with id {id_hash}.")
             is_new = False
             profit = db_functions.check_for_profit(stored_trade)
             if profit:

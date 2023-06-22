@@ -1,4 +1,5 @@
-CREATE DATABASE top_traders_deals;
+DROP DATABASE IF EXISTS top_traders_deals;
+CREATE DATABASE IF NOT EXISTS top_traders_deals;
 USE top_traders_deals;
 
 -- Path: database.sql
@@ -37,6 +38,18 @@ CREATE TABLE daily_trades (
     message_id INT NOT NULL,
     profit FLOAT NOT NULL
 );
+
+CREATE TABLE all_trades (
+    trade_id VARCHAR(64) PRIMARY KEY,
+    trader_uid VARCHAR(255) NOT NULL,
+    symbol VARCHAR(20) NOT NULL,
+    opened BIGINT NOT NULL,
+    closed BIGINT NOT NULL,
+    message_id INT NOT NULL,
+    profit FLOAT NOT NULL,
+    FOREIGN KEY (trader_uid) REFERENCES traders(uid)
+);
+
 
 CREATE TABLE daily_summary (
     id INT AUTO_INCREMENT PRIMARY KEY,
