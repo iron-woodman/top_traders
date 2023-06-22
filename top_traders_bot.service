@@ -1,0 +1,10 @@
+[Service]
+Type=simple
+User=root
+WorkingDirectory=/usr/local/bin/bot/top_traders/
+ExecStart=/usr/bin/python3 /usr/local/bin/bot/top_traders/main.py
+RestartSec=10
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
