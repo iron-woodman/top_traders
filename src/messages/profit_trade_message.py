@@ -1,3 +1,4 @@
+## -*- coding: utf-8 -*-
 from src.utils.timestamp_utils import format_timestamp
 from time import time
 class ProfitTradeMessage:

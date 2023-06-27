@@ -1,3 +1,4 @@
+## -*- coding: utf-8 -*-
 import src.database.db_functions as db_functions
 import src.api.telegram as bot
 import src.trades.trades as trades_functions

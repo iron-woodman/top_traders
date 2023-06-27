@@ -1,3 +1,4 @@
+## -*- coding: utf-8 -*-
 import argparse
 import random
 from time import sleep, time
@@ -79,6 +80,6 @@ if __name__ == "__main__":
         exit_message.send_message()
         print("Exiting")
     except Exception as e:
-        error_message = DevMessage(f"{e}", message_type="ERROR")
+        error_message = DevMessage(f"{e.message}", message_type="ERROR")
         error_message.send_message()
 

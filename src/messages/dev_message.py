@@ -1,3 +1,4 @@
+## -*- coding: utf-8 -*-
 from datetime import datetime
 
 from src.utils.config_handler import telegram_config

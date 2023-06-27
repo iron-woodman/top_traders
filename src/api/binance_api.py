@@ -1,3 +1,4 @@
+## -*- coding: utf-8 -*-
 import requests, requests.exceptions
 import json
 import random

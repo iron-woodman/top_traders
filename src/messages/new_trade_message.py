@@ -1,3 +1,4 @@
+## -*- coding: utf-8 -*-
 class NewTradeMessage:
     def __init__(self, trade, trader_name):
         self.trade = trade

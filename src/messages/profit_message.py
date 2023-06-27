@@ -1,3 +1,4 @@
+## -*- coding: utf-8 -*-
 from src.trades.trades_functions import generate_table_trades,generate_opened_trade_table
 from src.api.telegram import send_telegram_message
 from src.database.db_functions \

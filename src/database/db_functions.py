@@ -1,3 +1,4 @@
+## -*- coding: utf-8 -*-
 import mysql.connector
 from src.trades.trades import generate_trade_hash
 from time import time
