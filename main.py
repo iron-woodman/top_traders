@@ -52,11 +52,19 @@ if __name__ == "__main__":
 
         print(f"[{current_date.strftime('%d-%m-%Y %H:%M:%S')}] [i] Bot is running. Total trades stored : " + str(
             db_functions.count_total_trades()))
-        ping_thread = threading.Thread(target=send_ping_message_on_time)
-        ping_thread.start()
+        # ping_thread = threading.Thread(target=send_ping_message_on_time)
+        # ping_thread.start()
         while working is True:
             current_date = datetime.datetime.now()
+
+            # test
+            if current_date.minute % 10 == 0:
+                ping_message = DevMessage("PING")
+                ping_message.send_message()
+            # end test
+
             closed_trades = get_closed_trade()
+
             if current_date.hour == 19 and current_date.minute == 00 and working is True:
                 print("Time to close")
                 send_message()
@@ -80,6 +88,9 @@ if __name__ == "__main__":
         exit_message.send_message()
         print("Exiting")
     except Exception as e:
-        error_message = DevMessage(f"{e.message}", message_type="ERROR")
+        message = getattr(e, 'message', '')
+        if message == '':
+            message = e
+        error_message = DevMessage(f"{message}", message_type="ERROR")
         error_message.send_message()
 
